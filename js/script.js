@@ -148,6 +148,23 @@ $(document).ready(function() {
         $b.toggleClass('completed', type === "ring" ? cnt >= 6 : (cnt >= 4 || totalLv >= 9));
     };
 
+    $('#btnCurrentRecommend').on('click', function() {
+        let prio = [...new Set([...userPriority, ...FULL_DEFAULT_PRIORITY])];
+        
+        // 1. 카드 남은 자리 채우기 및 레벨업
+        $.each(["천칭", "양피지", "나침반", "종", "거울", "성배"], (i, n) => {
+            let $b = $(`.box[data-name="${n}"]`);
+            fillCard($b, prio);
+            upgradeCard($b, prio);
+        });
+        
+        // 2. 반지 남은 자리 채우기
+        $.each(["반지1", "반지2"], (i, n) => fillRing($(`.box[data-name="${n}"]`), prio));
+        
+        // 3. 최종 결과 재계산
+        calcTotal();
+    });
+
     $('#btnRecommend').on('click', function() {
         $('.btn-reset').click();
         let prio = [...new Set([...userPriority, ...FULL_DEFAULT_PRIORITY])];
@@ -177,7 +194,44 @@ $(document).ready(function() {
         });
         calcTotal();
     });
+    
+    // 전체 초기화 버튼 클릭 이벤트
+    $('#btnAllReset').on('click', function() {
+        if(confirm("모든 스킬 설정을 초기화하시겠습니까?")) {
+            $('.btn-reset').click();
+            
+            $('.chk-priority').prop('checked', false);
+            userPriority = [];
+            $('#userPriorityText').text("기본 설정 사용 중").css('color', '#aaa');
+            
+            calcTotal();
+            
+            alert("초기화되었습니다.");
+        }
+    });
 
+    // 모바일 결과창 접기/펼치기 기능 추가
+    function initMobileToggle() {
+        if ($(window).width() <= 768) {
+            $('.right').addClass('collapsed'); // 기본적으로 접힌 상태로 시작
+        }
+    }
+
+    $('.right h3').on('click', function() {
+        if ($(window).width() <= 768) {
+            $('.right').toggleClass('collapsed');
+        }
+    });
+
+    // 윈도우 리사이즈 대응
+    $(window).on('resize', function() {
+        if ($(window).width() > 768) {
+            $('.right').removeClass('collapsed');
+        }
+    });
+
+    initMobileToggle(); // 실행
+    
     initUI();
     createArea("반지1", SKILLS.active, "ring");
     createArea("반지2", SKILLS.active, "ring");

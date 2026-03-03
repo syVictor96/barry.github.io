@@ -2,7 +2,7 @@
     :root { --accent: #ffaa00; --dream: #a366ff; --bg: #111; --panel: #1a1a1a; }
     body { margin: 0; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; background: var(--bg); color: #eee; font-size: 14px; }
     
-    .header-panel { padding: 15px 20px; border-bottom: 2px solid #333; background: var(--panel); position: relative; z-index: 10; }
+    .header-panel { padding: 15px 20px; border-bottom: 2px solid #333; background: var(--panel); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
     .toggle-btn { position: absolute; right: 20px; top: 15px; cursor: pointer; background: #333; border: 1px solid #555; color: #fff; padding: 5px 10px; border-radius: 4px; }
     .priority-info { background: #222; border: 1px solid #444; padding: 12px; margin-bottom: 10px; border-radius: 5px; }
     
@@ -14,7 +14,9 @@
     .btn-group { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
     .btn-recommend { padding: 10px 18px; font-weight: bold; background: var(--accent); color: #111; border: none; cursor: pointer; border-radius: 4px; }
     .btn-dream { padding: 10px 18px; font-weight: bold; background: var(--dream); color: #fff; border: none; cursor: pointer; border-radius: 4px; }
-    
+    .btn-current { padding: 10px 18px; font-weight: bold; background: #4caf50; color: #fff; border: none; cursor: pointer; border-radius: 4px; }
+    #btnAllReset{ padding: 10px 18px; font-weight: bold; background: #555; color: #fff; border: none; cursor: pointer; border-radius: 4px; }
+
     .box { border: 1px solid #444; margin-bottom: 15px; padding: 15px; background: var(--panel); border-radius: 5px; transition: all 0.3s ease; position: relative; width: calc((100% - 11px) / 2); float: left; min-height: 250px;}
     .box:nth-child(2n){ margin-left:10px; }
     .box.completed { border-color: var(--accent); background: linear-gradient(145deg, #1a1a1a 0%, #2d230d 100%); box-shadow: 0 0 10px rgba(255,170,0,0.15); }
@@ -37,15 +39,27 @@
     .priority-info label{ white-space: nowrap; }
 
     @media (max-width: 768px) {
-        .container { flex-direction: column; }
+
+        ::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .container { flex-direction: column; padding-bottom: 80px; }
         .left, .right { flex: none; width: 100%; border-right: none; padding: 15px; }
-        .right { position: relative; height: auto; border-top: 2px solid #333; top: 0; }
-        .result-grid { grid-template-columns: 1fr 1fr; }
+        .right { position: fixed; top: auto; bottom: 0; left: 0; right: 0; height: auto; max-height: 70vh; background: #1a1a1a; z-index: 99; border-top: 2px solid var(--accent); border-left: none; padding: 10px 15px; transition: transform 0.3s ease-in-out; overflow-y: auto; }
+        .right.collapsed { transform: translateY(calc(100% - 45px)); overflow: hidden; }
+        .right h3 { cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 15px; padding-top: 5px; }
+        .right h3::after { content: "▲"; font-size: 12px; }
+        .right.collapsed h3::after { content: "▼"; }
+        .result-grid { grid-template-columns: 1fr 1fr; padding-bottom: 20px; }
+
         .priority-info b{ display: block; }
         .priority-info label{  }
         .btn-group { flex-wrap: nowrap; flex-direction: row; justify-content: space-between; }
-        .btn-group button{ width: 50%; text-align: center; }
+        .btn-group button{ width: 50%; text-align: center; font-size: 13px;}
         .box.completed::after{ display:none!important; }
         .box{ width:100%; margin-bottom:10px; min-height:auto;}
         .box:nth-child(2n){ margin-left:0;}
+        .btn-group { flex-wrap: nowrap; flex-direction: row; justify-content: space-between; gap: 5px; }7
+        .btn-group button { width: 33.33%; text-align: center; padding: 10px 0; font-size: 12px; }
     }
