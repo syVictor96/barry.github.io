@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>아이온2 치유성 스킬 시뮬레이터</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/script.js"></script>
+<style>
+    
+</style>
+</head>
+<body>
+    <div class="header-panel">
+        <button class="toggle-btn" id="togglePanel">▲ 접기</button>
+        <div id="fullHeader">
+            <div class="priority-info">
+                <h3 style="margin:0 0 10px 0; font-size:16px;">스킬 우선순위 설정</h3>
+                <div id="priorityCheckboxes"></div>
+            </div>
+        </div>
+        <div id="summaryArea">
+            <p style="margin:5px 0; font-size:13px;"><b>현재 우선순위:</b> <span id="userPriorityText">기본 설정 사용 중</span></p>
+            <div class="btn-group">
+                <button id="btnRecommend" class="btn-recommend">최적 추천셋팅</button>
+                <button id="btnDream" class="btn-dream">천운의 졸업셋팅</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="left" id="left"></div>
+        <div class="right">
+            <h3 style="margin-top:0; border-bottom:1px solid #444; padding-bottom:10px;">실시간 스킬 레벨</h3>
+            <div id="result" class="result-grid"></div>
+        </div>
+    </div>
+
+</body>
+</html>
